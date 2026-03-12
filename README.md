@@ -4,7 +4,7 @@ This repository contains the `codex-git` agent skill.
 
 ## Purpose
 
-Use this skill when working with git in Codex.app. It explains when git commands that write repository state require escalation, and how to avoid failed non-escalated or conflicting parallel write attempts.
+Use this skill when working with git in Codex.app. It explains when git commands that write repository state require escalation, how to avoid conflicting write attempts, and how to interpret `.git/index.lock` failures conservatively.
 
 ## Compatibility
 

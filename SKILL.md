@@ -62,5 +62,5 @@ These are typically read-only and can usually run without escalation:
 
 - This rule is about Codex.app's handling of git metadata writes, not about repository location.
 - The rule still applies inside writable roots.
-- Parallel write-side git operations against the same repository can race on `.git/index.lock`; serialize them.
-- If a git write command fails in a surprising way, check whether escalation was missing before assuming the repository is broken.
+- An `index.lock` failure in Codex.app means a write-side git operation was attempted the wrong way. The cause may be missing escalation, conflicting concurrent writes, or another interrupted write. Do not assume the cause without checking how the command was run.
+- If a git write command fails in a surprising way, first check whether it should have been escalated and whether another write-side git command was running against the same repository.

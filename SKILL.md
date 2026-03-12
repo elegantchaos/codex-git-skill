@@ -13,6 +13,8 @@ Codex.app requires escalation for git commands that write repository state, even
 
 ## Rules
 
+- Prefer setting the command `workdir` to the repository path and running plain `git ...` commands.
+- Avoid `git -C <path> ...` unless it is explicitly required, because Codex rule matching works better when the git command itself is the command prefix.
 - Treat git commands that write repository state as escalation-required.
 - Do not probe non-escalated first for write-side git commands.
 - Do not parallelize write-side git commands against the same repository. Run them serially.

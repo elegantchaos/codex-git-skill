@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="assets/logo.svg" alt="Codex Git - Agent Skill" height="100" />
+</p>
+
 # Codex Git
 
 This repository contains the `codex-git` agent skill.

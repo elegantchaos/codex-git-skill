@@ -15,6 +15,7 @@ Codex.app requires escalation for git commands that write repository state, even
 
 - Treat git commands that write repository state as escalation-required.
 - Do not probe non-escalated first for write-side git commands.
+- Do not parallelize write-side git commands against the same repository. Run them serially.
 - Read-only git commands can usually run without escalation.
 - If a git command will update `.git/index`, refs, commits, stashes, branches, tags, or other repository metadata, request escalation before running it.
 
@@ -53,11 +54,13 @@ These are typically read-only and can usually run without escalation:
 
 1. Decide whether the planned git command is read-only or write-side.
 2. If it writes repository state, request escalation immediately.
-3. If it is read-only, run it normally unless some other sandbox restriction blocks it.
-4. If unsure, bias toward escalation rather than retrying after a failed write attempt.
+3. If multiple write-side git commands are needed, run them serially rather than in parallel.
+4. If it is read-only, run it normally unless some other sandbox restriction blocks it.
+5. If unsure, bias toward escalation rather than retrying after a failed write attempt.
 
 ## Notes
 
 - This rule is about Codex.app's handling of git metadata writes, not about repository location.
 - The rule still applies inside writable roots.
+- Parallel write-side git operations against the same repository can race on `.git/index.lock`; serialize them.
 - If a git write command fails in a surprising way, check whether escalation was missing before assuming the repository is broken.

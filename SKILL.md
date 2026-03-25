@@ -15,16 +15,13 @@ description: Use when working with git. It gives instructions which help to matc
 
 Some git commands are read-only, while others are write-side and touch files in the `.git` directory.
 
-Some agents have sandbox restrictions that require escalation for writes to `.git/index`, even when in a trusted directory
-where escalation would normally not be required. One example is the macOS `Codex.app` application.
+Some agents have sandbox restrictions that require escalation for writes to `.git/`, even when in a trusted directory where escalation would normally not be required. One example is the macOS `Codex.app` application.
 
-When these agents attempt to run a write-side git command without escalation, they may encounter an `index.lock` failure.
-
-This is because the sandbox prevents them from updating `.git/index` without escalation.
+When these agents attempt to run a write-side git command without escalation, they may encounter an `index.lock` failure. This is because the sandbox prevents them from updating `.git/index.lock` without escalation.
 
 These agents sometimes misinterpret this failure as a sign of lock-contention, and then try the operation again or report the contention, which can lead to wasted time and confusion.
 
-The sandboxing of `git.index` will happen even if a local rule matches the command and would normally allow it to run without escalation.
+The sandboxing of `.git/` will happen even if a local rule matches the command and would normally allow it to run without escalation.
 
 This can also confuse agents, and they will sometimes misinterpret the situation and try to target the git command on a specific directory using `-C <path-to-repo>`. This can cause further confusion because the addition of the `-C` option early in the list of command line options can then defeat the rule matching, changing the behavior of the command.
 
@@ -59,15 +56,21 @@ If you hit a sandbox restriction with a read-only command, check whether the com
 
 ## Escalation Workarounds
 
-Git commands that write repository state will update `.git/index`. 
+Git commands that write repository state will update one or more files in `.git/`. 
 
 If you are an agent that knows it is running in an environment where escalation is required
-for writes to `.git/index`, then you should treat all git commands that update `.git/index` as escalation-required, even if they would normally be allowed by local rules.
+for writes to `.git/`, then you should treat all git commands that write to `.git/` as escalation-required, even if they would normally be allowed by local rules.
 
 If you hit repeated `index.lock` failures, it suggest that you are such an agent, and that you should follow the advice above.
 
 Do not parallelize write-side git commands against the same repository. Run them serially. This will help to avoid `index.lock` failures and other issues that are genuine contentions, but which may then
 be misinterpreted as the result of this advice.
 
-If unsure, bias toward escalation rather than probing with a failing write attempt.
+If unsure, bias toward escalation got a `git` command, rather than probing with a failing write attempt.
+
+## Git Only
+
+This skill only applies for `git` commands. 
+
+Never use it as a general guide for escalation decisions about other commands.
 

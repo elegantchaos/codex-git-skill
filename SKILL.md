@@ -79,3 +79,6 @@ This skill only applies for `git` commands.
 
 Never use it as a general guide for escalation decisions about other commands.
 
+## References
+
+See https://developers.openai.com/codex/agent-approvals-security for more information on how Codex agents handle approvals and security, including sandboxing and escalation.

@@ -5,6 +5,11 @@ description: Use when working with git. It gives instructions which help to matc
 
 # Git Usage
 
+## General Rules
+
+- Prefer the git@ or ssh:// protocol for remotes, to avoid password prompts and other issues with https:// remotes.
+- Avoid `git -C <path> ...`, and prefer setting the command `workdir` to the directory path, while running plain `git ...` commands.
+
 ## Use This Skill When
 
 - a task needs git commands

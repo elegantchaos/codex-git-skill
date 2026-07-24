@@ -1,7 +1,7 @@
 interface:
-  display_name: "Codex Git"
-  short_description: "Use when working with git. It gives instructions which help to match general git rules, and to avoid escalation mistakes."
+  display_name: "Codex Git and GitHub"
+  short_description: "Safe Git and GitHub workflows for agents"
   icon_small: "./assets/codex-git-icon.svg"
   icon_large: "./assets/codex-git-icon.png"
   brand_color: "#1A1A1A"
-  default_prompt: "Use $codex-git to help to match general git rules, and to avoid escalation mistakes."
+  default_prompt: "Use $codex-git for a safe Git or GitHub workflow."

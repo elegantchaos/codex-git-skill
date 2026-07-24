@@ -1,26 +1,22 @@
 ---
 name: codex-git
-description: Use when working with git. It gives instructions which help to match general git rules, and to avoid escalation mistakes.
+description: Use when working with git or GitHub. It covers safe git command and escalation practices, GitHub CLI workflows, pull requests, draft releases, review feedback, and GitHub Actions CI triage.
 ---
 
-# Git Usage
+# Codex Git and GitHub
 
-## General Rules
+Use this skill for local Git work and GitHub workflows across Codex, command-line, and other agent environments. The Git rules apply to every Git repository. The GitHub workflows apply only when the repository is hosted on GitHub or the task otherwise targets GitHub. Keep GitHub connector use optional: prefer it for structured repository, issue, pull-request, and comment data when available; use `gh` for the gaps it cannot cover.
+
+## Git Rules
 
 - Prefer the git@ or ssh:// protocol for remotes, to avoid password prompts and other issues with https:// remotes.
 - Avoid `git -C <path> ...`, and prefer setting the command `workdir` to the directory path, while running plain `git ...` commands.
-
-## Use This Skill When
-
-- a task needs git commands
-- the work may update repository state
-- you need to decide whether a git command requires escalation
 
 ## Sandboxing and Escalation
 
 Some git commands are read-only, while others are write-side and touch files in the `.git` directory.
 
-Some agents have sandbox restrictions that require escalation for writes to `.git/`, even when in a trusted directory where escalation would normally not be required. One example is the macOS `Codex.app` application.
+Some agent environments have sandbox restrictions that require escalation for writes to `.git/`, even when in a trusted directory where escalation would normally not be required. Codex.app on macOS is one such environment.
 
 When these agents attempt to run a write-side git command without escalation, they may encounter an `index.lock` failure. This is because the sandbox prevents them from updating `.git/index.lock` without escalation.
 
@@ -79,6 +75,12 @@ This skill only applies for `git` commands.
 
 Never use it as a general guide for escalation decisions about other commands.
 
-## References
+## GitHub Workflows
 
-See https://developers.openai.com/codex/agent-approvals-security for more information on how Codex agents handle approvals and security, including sandboxing and escalation.
+- For repository, PR, or issue orientation, read [references/github-triage.md](references/github-triage.md).
+- For PR creation or editing, read [references/pull-requests.md](references/pull-requests.md).
+- For draft releases, read [references/draft-releases.md](references/draft-releases.md).
+- For unresolved review feedback, read [references/review-comments.md](references/review-comments.md).
+- For failing GitHub Actions checks, read [references/github-actions-ci.md](references/github-actions-ci.md).
+
+Keep PRs and release notes factual and scoped to the actual diff. Run `actionlint` when changing GitHub Actions workflows if it is installed; otherwise record that it was unavailable without installing it solely for validation.

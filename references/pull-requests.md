@@ -2,6 +2,9 @@
 
 ## Rules
 
+- Make every change to `main` through a pull request. Keep direct pushes and local merges off `main`.
+- Configure GitHub branch protection or a ruleset for `main` to require a pull request before merging. Do not require a full-validation status check until CI actually runs it reliably for the repository.
+- Before merging, verify that the repository's required full validation passed for the final PR head. Record the result in the PR and rerun it after changes to that head.
 - Always use `--body-file` for PR descriptions.
 - Never use inline `--body` for multi-line markdown.
 - Build the PR body in the harness-provided scratchpad directory if one exists, otherwise in `<repository>/.build/tmp/`, then pass that file to `gh pr create` or `gh pr edit`. Create the directory if needed. Do not use a system temporary directory, which may require an unnecessary file-edit approval.
